@@ -9,9 +9,10 @@
   var KEY_FINISHED = 'hawkins_finished';   // '1' — пройден последний уровень
   var KEY_HISTORY = 'hawkins_history';     // { "20": timestampMs, ... } — когда завершён уровень
   var KEY_SETTINGS = 'hawkins_settings';   // { daily: false }
+  var KEY_PICKED = 'hawkins_picked_at';    // когда пользователь сам выбрал уровень (сбрасывает суточный отдых)
   var DAY_MS = 24 * 60 * 60 * 1000;
   var MIN_LISTEN_SEC = 60;                 // сколько слушать, чтобы открылась «Я выполнил практику»
-  var START_LEVEL = 20;
+  var START_LEVEL = 20;                    // уровень по умолчанию, если выбор ещё не сделан
 
   /* ---------- Утилиты ---------- */
   function $(sel, root) { return (root || document).querySelector(sel); }
@@ -66,6 +67,15 @@
       return v;
     },
     finished: function () { return localStorage.getItem(KEY_FINISHED) === '1'; },
+    /** Есть ли сохранённый прогресс (старым пользователям онбординг не показываем). */
+    hasProgress: function () { return localStorage.getItem(KEY_PROGRESS) !== null || this.finished(); },
+    /** Пользователь сам выбирает текущий уровень — вверх или вниз. История пройденного сохраняется. */
+    pick: function (id) {
+      if (this.ids.indexOf(id) === -1) return;
+      localStorage.setItem(KEY_PROGRESS, String(id));
+      localStorage.removeItem(KEY_FINISHED);
+      localStorage.setItem(KEY_PICKED, String(Date.now()));
+    },
     history: function () { return readJSON(KEY_HISTORY, {}); },
     settings: function () { return Object.assign({ daily: false }, readJSON(KEY_SETTINGS, {})); },
     setSettings: function (s) { writeJSON(KEY_SETTINGS, s); },
@@ -81,11 +91,14 @@
       if (!this.settings().daily || this.finished()) return 0;
       var last = this.lastCompletedAt();
       if (!last) return 0;
+      var picked = parseInt(localStorage.getItem(KEY_PICKED), 10) || 0;
+      if (picked > last) return 0;           // уровень выбран вручную после последнего завершения
       return Math.max(0, last + DAY_MS - Date.now());
     },
     state: function (id) {
       var cur = this.current();
-      if (this.finished() || id < cur) return 'passed';
+      if (this.finished()) return 'passed';
+      if (id < cur) return this.history()[id] ? 'passed' : 'open';   // ниже текущего — всегда открыт
       if (id === cur) return this.restRemaining() > 0 ? 'resting' : 'current';
       return 'locked';
     },
@@ -103,7 +116,7 @@
       return { from: id, to: nxt };
     },
     reset: function () {
-      [KEY_PROGRESS, KEY_FINISHED, KEY_HISTORY].forEach(function (k) { localStorage.removeItem(k); });
+      [KEY_PROGRESS, KEY_FINISHED, KEY_HISTORY, KEY_PICKED].forEach(function (k) { localStorage.removeItem(k); });
     }
   };
 
@@ -149,7 +162,7 @@
     // Список: сверху — Просветление, снизу — Стыд (вертикальная шкала)
     var html = levels.slice().reverse().map(function (l) {
       var st = Progress.state(l.id);
-      var labels = { passed: 'пройден', current: 'текущий', resting: 'отдых', locked: 'закрыт' };
+      var labels = { passed: 'пройден', open: 'открыт', current: 'текущий', resting: 'отдых', locked: 'закрыт' };
       var tag = st === 'locked' ? 'div' : 'a';
       var href = st === 'locked' ? '' : ' href="level.html?id=' + l.id + '"';
       return '<li class="node node--' + st + ' band--' + l.band + '" style="--c:' + l.color + '" data-id="' + l.id + '">' +
@@ -168,6 +181,9 @@
     $('#scale').innerHTML = html;
 
     renderCurrentCard(curLevel, finished, levels.length);
+    document.querySelectorAll('[data-pick-open]').forEach(function (b) {
+      b.onclick = function () { openPicker(data, false); };
+    });
 
     // Настройки
     var toggle = $('#dailyToggle');
@@ -178,11 +194,18 @@
     };
     var resetBtn = $('#resetBtn');
     resetBtn.onclick = function () {
-      if (confirm('Сбросить весь прогресс и начать восхождение с уровня 20 (Стыд)?')) {
+      if (confirm('Сбросить весь прогресс? После сброса вы снова выберете уровень, с которого начать.')) {
         Progress.reset();
         location.href = 'index.html';
       }
     };
+
+    // Первый визит — «Где вы сейчас?»; ?pick=1 — открыть выбор принудительно
+    if (!initMap._pickerChecked) {
+      initMap._pickerChecked = true;
+      if (!Progress.hasProgress()) { openPicker(data, true); return; }
+      if (param('pick')) { history.replaceState(null, '', 'index.html'); openPicker(data, false); return; }
+    }
 
     // Анимация восхождения после завершения уровня
     var asc = parseInt(param('ascended'), 10);
@@ -210,7 +233,8 @@
         '<h2 class="current-card__title">700+ · Просветление</h2>' +
         '<p class="current-card__aff">«Я есмь.»</p>' + progressBar +
         '<div class="current-card__actions"><a class="btn btn--gold" href="library.html">Открыть библиотеку</a>' +
-        '<a class="btn btn--ghost" href="level.html?id=700">Переслушать финал</a></div>';
+        '<a class="btn btn--ghost" href="level.html?id=700">Переслушать финал</a>' +
+        '<button class="btn btn--ghost" type="button" data-pick-open>⇅ Сменить уровень</button></div>';
       return;
     }
     var rest = Progress.restRemaining();
@@ -224,6 +248,7 @@
           ? '<button class="btn btn--gold" disabled>Начать практику</button>' +
             '<p class="current-card__rest">Ежедневность: следующая практика откроется через <b id="restTimer">' + fmtCountdown(rest) + '</b></p>'
           : '<a class="btn btn--gold btn--pulse" id="startBtn" href="level.html?id=' + l.id + '">Начать практику</a>') +
+        '<button class="btn btn--ghost" type="button" data-pick-open>⇅ Сменить уровень</button>' +
       '</div>';
     if (rest > 0) {
       renderCurrentCard._timer = setInterval(function () {
@@ -241,6 +266,61 @@
     if (window.innerWidth < 760 || smooth) {
       setTimeout(function () { el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' }); }, smooth ? 50 : 0);
     }
+  }
+
+  /* ---------- Выбор уровня: «Где вы сейчас?» ---------- */
+  function openPicker(data, first) {
+    var box = $('#picker');
+    var cur = Progress.hasProgress() ? Progress.current() : null;
+    var fin = Progress.finished();
+    var items = data.levels.slice().reverse().map(function (l) {
+      var isCur = l.id === cur && !fin;
+      return '<li><button type="button" class="pick' + (isCur ? ' pick--current' : '') + '" data-id="' + l.id + '" style="--c:' + l.color + '">' +
+        '<span class="pick__num">' + esc(l.display) + '</span>' +
+        '<span class="pick__text"><span class="pick__name">' + esc(l.name) + ' <small>' + esc(l.name_en) + '</small></span>' +
+        '<span class="pick__state">' + esc(l.state || l.theme) + '</span></span>' +
+        (isCur ? '<span class="pick__badge">сейчас</span>' : '') +
+      '</button></li>';
+    }).join('');
+    box.innerHTML =
+      '<div class="picker__panel" role="dialog" aria-modal="true" aria-labelledby="pickerTitle">' +
+        (first ? '' : '<button class="picker__close" type="button" aria-label="Закрыть">×</button>') +
+        '<div class="picker__head">' +
+          '<p class="eyebrow">' + (first ? 'Добро пожаловать' : 'Выбрать своё состояние') + '</p>' +
+          '<h2 id="pickerTitle">' + (first ? 'Где вы сейчас?' : 'Сменить уровень') + '</h2>' +
+          '<p class="picker__note">Начать можно с любого уровня — выберите тот, что ближе всего к вашему состоянию сейчас. ' +
+          'Все уровни ниже выбранного будут открыты для практики в любой момент, а подъём выше идёт шаг за шагом. ' +
+          'Выбор всегда можно изменить.</p>' +
+        '</div>' +
+        '<ol class="picker__list">' + items + '</ol>' +
+        (first ? '<p class="picker__skip"><button type="button" class="linklike" data-id="20">Не знаю — начать с самого начала (20 · Стыд)</button></p>' : '') +
+      '</div>';
+    box.hidden = false;
+    document.body.classList.add('has-modal');
+    var close = function () { box.hidden = true; box.innerHTML = ''; document.body.classList.remove('has-modal'); };
+    box.querySelectorAll('[data-id]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var id = parseInt(b.getAttribute('data-id'), 10);
+        var l = data.levels.filter(function (x) { return x.id === id; })[0];
+        if (!first) {
+          if (id === cur && !fin) { close(); return; }
+          var msg = 'Сделать текущим уровень ' + l.display + ' · ' + l.name + '?\n\n' +
+            (cur !== null && !fin && id < cur ? 'Уровни выше выбранного снова закроются, история пройденного сохранится.'
+                                              : 'Все уровни ниже станут открыты для практики.');
+          if (!confirm(msg)) return;
+        }
+        Progress.pick(id);
+        close();
+        initMap(data);
+        scrollToCurrent(true);
+      });
+    });
+    var x = box.querySelector('.picker__close');
+    if (x) x.onclick = close;
+    box.onclick = function (e) { if (e.target === box && !first) close(); };
+    document.onkeydown = function (e) { if (e.key === 'Escape' && !first && !box.hidden) close(); };
+    var curBtn = box.querySelector('.pick--current');
+    if (curBtn) setTimeout(function () { curBtn.scrollIntoView({ block: 'center' }); }, 0);
   }
 
   function playAscension(levels, fromId) {
@@ -294,8 +374,9 @@
 
     if (st === 'locked') {
       root.innerHTML = '<div class="notice"><p class="eyebrow">Уровень закрыт</p><h1>' + esc(l.display) + ' · ' + esc(l.name) + '</h1>' +
-        '<p>Этот уровень откроется, когда вы пройдёте все предыдущие. Восхождение идёт шаг за шагом.</p>' +
-        '<a class="btn btn--gold" href="level.html?id=' + Progress.current() + '">К текущему уровню</a></div>';
+        '<p>Этот уровень выше вашего текущего — он откроется по мере восхождения. Если вы чувствуете, что ваше состояние уже здесь, смените уровень на карте.</p>' +
+        '<div class="current-card__actions"><a class="btn btn--gold" href="level.html?id=' + Progress.current() + '">К текущему уровню</a>' +
+        '<a class="btn btn--ghost" href="index.html?pick=1">⇅ Сменить уровень</a></div></div>';
       return;
     }
 
@@ -306,13 +387,15 @@
     var modeNote = {
       current: 'Прослушайте трек до конца — кнопка «Завершить уровень» станет активной. Или выполните практику и отметьте её.',
       resting: 'Включена «Ежедневность». Сегодня вы уже прошли уровень — этот откроется для завершения через <b id="restTimer">' + fmtCountdown(Progress.restRemaining()) + '</b>. Слушать и читать можно уже сейчас.',
-      passed: 'Этот уровень уже пройден. Вы можете переслушать его в любой момент — прогресс не изменится.'
+      passed: 'Этот уровень уже пройден. Вы можете переслушать его в любой момент — прогресс не изменится.',
+      open: 'Этот уровень ниже вашего текущего — он открыт для практики в любой момент. Возвращайтесь сюда, когда состояние опускается.'
     }[st];
+    var isArchive = st === 'passed' || st === 'open';
 
     root.innerHTML =
       '<header class="level__head">' +
         '<div class="level__geometry" data-geometry aria-hidden="true"></div>' +
-        '<p class="eyebrow">' + (st === 'passed' ? 'Архив · пройденный уровень' : 'Практика · уровень ' + (l.index + 1) + ' из ' + data.levels.length) + '</p>' +
+        '<p class="eyebrow">' + (st === 'passed' ? 'Архив · пройденный уровень' : st === 'open' ? 'Открытый уровень · практика без завершения' : 'Практика · уровень ' + (l.index + 1) + ' из ' + data.levels.length) + '</p>' +
         '<div class="level__num">' + esc(l.display) + '</div>' +
         '<h1 class="level__name">' + esc(l.name) + '</h1>' +
         '<p class="level__en">' + esc(l.name_en) + '</p>' +
@@ -324,7 +407,7 @@
       '<section class="card lyrics"><h2 class="card__title">Текст</h2><div class="lyrics__body">' + lyricsHTML + '</div></section>' +
       '<section class="card actions" id="actions">' +
         '<p class="actions__note">' + modeNote + '</p>' +
-        (st === 'passed'
+        (isArchive
           ? '<div class="actions__row"><a class="btn btn--gold" href="index.html">Вернуться к карте</a></div>'
           : '<div class="actions__row">' +
               '<button class="btn btn--ghost" id="doneBtn" type="button" disabled>Я выполнил практику</button>' +
@@ -384,9 +467,9 @@
   /* ---------- Библиотека (library.html) ---------- */
   function initLibrary(data) {
     var root = $('#library');
-    var passed = data.levels.filter(function (l) { return Progress.state(l.id) === 'passed'; });
+    var passed = data.levels.filter(function (l) { var st = Progress.state(l.id); return st === 'passed' || st === 'open'; });
     if (!passed.length) {
-      root.innerHTML = '<div class="notice"><h2>Архив пока пуст</h2><p>Здесь появятся треки уровней, которые вы уже прошли. Начните восхождение с первого уровня.</p>' +
+      root.innerHTML = '<div class="notice"><h2>Архив пока пуст</h2><p>Здесь появляются треки пройденных уровней и всех уровней ниже вашего текущего. Начните практику со своего уровня.</p>' +
         '<a class="btn btn--gold" href="level.html?id=' + Progress.current() + '">Начать практику</a></div>';
       return;
     }

@@ -226,6 +226,56 @@ a.node__link:hover { background: rgba(255, 255, 255, .035); transform: translate
 
 .footer { text-align: center; color: var(--dim); font-size: 12.5px; padding: 30px 20px calc(30px + env(safe-area-inset-bottom)); max-width: 640px; margin: 0 auto; }
 
+/* Открытый (ниже текущего, но не пройденный) уровень */
+.node--open .node__dot { background: color-mix(in srgb, var(--c) 35%, var(--bg)); }
+.node--open .node__state { color: #c9cbe0; }
+.settings__row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+/* ---------- Выбор уровня «Где вы сейчас?» ---------- */
+body.has-modal { overflow: hidden; }
+.picker {
+  position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center;
+  padding: 16px; background: rgba(3, 4, 12, .82);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn .35s ease;
+}
+.picker[hidden] { display: none; }
+.picker__panel {
+  position: relative; width: min(640px, 100%); max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px);
+  display: flex; flex-direction: column; overflow: hidden;
+  background: linear-gradient(180deg, rgba(18, 22, 50, .97), rgba(8, 10, 24, .98));
+  border: 1px solid rgba(232, 195, 106, .35); border-radius: 22px;
+  box-shadow: 0 0 80px rgba(232, 195, 106, .12), 0 30px 80px rgba(0, 0, 0, .6);
+  animation: rise .5s ease-out;
+}
+.picker__head { padding: 26px 26px 14px; text-align: center; border-bottom: 1px solid var(--line); }
+.picker__head h2 { margin: 0; font-size: clamp(30px, 7vw, 40px); line-height: 1.1; color: var(--gold-2); }
+.picker__note { margin: 10px auto 0; max-width: 500px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+.picker__close {
+  position: absolute; top: 10px; right: 12px; width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--line); background: transparent; color: var(--muted); font-size: 24px; line-height: 1; cursor: pointer;
+}
+.picker__close:hover { color: var(--gold); border-color: var(--gold); }
+.picker__list { list-style: none; margin: 0; padding: 10px 12px 14px; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.pick {
+  width: 100%; display: grid; grid-template-columns: 64px 1fr auto; align-items: center; gap: 14px;
+  padding: 11px 14px; margin: 3px 0; border-radius: 14px; cursor: pointer; text-align: left;
+  border: 1px solid transparent; background: transparent; color: var(--ink); font: inherit;
+  transition: background .25s, border-color .25s, transform .2s;
+}
+.pick:hover, .pick:focus-visible {
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+  border-color: color-mix(in srgb, var(--c) 55%, transparent); outline: none; transform: translateX(2px);
+}
+.pick--current { border-color: color-mix(in srgb, var(--c) 60%, transparent); background: color-mix(in srgb, var(--c) 10%, transparent); }
+.pick__num { font: 700 22px/1 var(--display); color: var(--c); text-align: right; text-shadow: 0 0 14px color-mix(in srgb, var(--c) 60%, transparent); }
+.pick__text { display: flex; flex-direction: column; min-width: 0; }
+.pick__name { font: 600 21px/1.15 var(--serif); }
+.pick__name small { font: 500 10px/1 var(--display); letter-spacing: .24em; text-transform: uppercase; color: var(--muted); margin-left: 4px; }
+.pick__state { font-size: 13.5px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
+.pick__badge { font-size: 11px; letter-spacing: .08em; color: var(--neon); border: 1px solid rgba(126, 240, 255, .4); border-radius: 999px; padding: 3px 9px; }
+.picker__skip { margin: 0; padding: 12px 20px 18px; text-align: center; border-top: 1px solid var(--line); }
+.linklike { background: none; border: 0; color: var(--gold); font: 500 14px/1.4 var(--sans); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; padding: 6px; }
+
 /* ---------- Анимация восхождения ---------- */
 .ascension {
   position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; cursor: pointer;
@@ -360,6 +410,13 @@ a.node__link:hover { background: rgba(255, 255, 255, .035); transform: translate
 
 /* ---------- Мобильная адаптация ---------- */
 @media (max-width: 760px) {
+  .picker { padding: 0; align-items: stretch; }
+  .picker__panel { width: 100%; max-height: none; height: 100%; border-radius: 0; border: 0; }
+  .picker__head { padding: calc(22px + env(safe-area-inset-top)) 18px 12px; }
+  .pick { grid-template-columns: 50px 1fr auto; gap: 10px; padding: 10px 8px; }
+  .pick__num { font-size: 18px; }
+  .pick__name { font-size: 19px; }
+  .picker__skip { padding-bottom: calc(14px + env(safe-area-inset-bottom)); }
   .hero { padding-top: 48px; }
   .scale::before { left: calc(58px + 7px); }
   .node__link { grid-template-columns: 58px 16px 1fr; gap: 0 12px; padding: 10px 8px 10px 0; }

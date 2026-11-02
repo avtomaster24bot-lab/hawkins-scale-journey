@@ -27,7 +27,7 @@ for l in data["levels"]:
     if l["band"] != cur:
         cur = l["band"]; out += ["---", "", f"## {band[cur]}", ""]
     out += [f"### {l['display']} — {l['name']} ({l['name_en']})", "",
-            f"**Тема:** {l['theme']}  ", f"**Аффирмация:** {l['affirmation']}  ",
+            f"**Тема:** {l['theme']}  ", f"**Состояние:** {l.get('state', '')}  ", f"**Аффирмация:** {l['affirmation']}  ",
             f"**Практика:** {l['practice']}", "",
             "**Style of Music:**", "```text", l["suno_style"], "```", "",
             "**Lyrics:**", "```text", l["suno_lyrics"], "```", "",
