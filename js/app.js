@@ -16,6 +16,23 @@
 
   /* ---------- Утилиты ---------- */
   function $(sel, root) { return (root || document).querySelector(sel); }
+  /** Найти элемент по id или создать его (защита от устаревшего HTML из кэша). */
+  function ensureEl(id, className, parent) {
+    var el = document.getElementById(id);
+    if (!el) {
+      el = document.createElement('div');
+      el.id = id;
+      if (className) el.className = className;
+      el.hidden = true;
+      (parent || document.body).appendChild(el);
+    }
+    return el;
+  }
+  var VERSION = (function () {
+    var sc = document.querySelector('script[src*="js/app.js"]');
+    var m = sc && /[?&]v=([^&]+)/.exec(sc.getAttribute('src'));
+    return m ? m[1] : String(Date.now());
+  })();
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -36,7 +53,7 @@
   function loadData() {
     // Основной источник — data/tracks.json (ТЗ 3.4 п.5). Резерв — data/tracks.js,
     // чтобы сайт работал и при открытии файла напрямую (file://), где fetch запрещён.
-    return fetch('data/tracks.json', { cache: 'no-cache' })
+    return fetch('data/tracks.json?v=' + encodeURIComponent(VERSION), { cache: 'no-store' })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .catch(function () {
         if (window.HAWKINS_DATA) return window.HAWKINS_DATA;
@@ -163,10 +180,10 @@
     var html = levels.slice().reverse().map(function (l) {
       var st = Progress.state(l.id);
       var labels = { passed: 'пройден', open: 'открыт', current: 'текущий', resting: 'отдых', locked: 'закрыт' };
-      var tag = st === 'locked' ? 'div' : 'a';
-      var href = st === 'locked' ? '' : ' href="level.html?id=' + l.id + '"';
+      var tag = st === 'locked' ? 'button' : 'a';
+      var href = st === 'locked' ? ' type="button" data-switch="' + l.id + '" title="Начать с этого уровня"' : ' href="level.html?id=' + l.id + '"';
       return '<li class="node node--' + st + ' band--' + l.band + '" style="--c:' + l.color + '" data-id="' + l.id + '">' +
-        '<' + tag + ' class="node__link"' + href + (st === 'locked' ? ' aria-disabled="true"' : '') + '>' +
+        '<' + tag + ' class="node__link"' + href + '>' +
           '<span class="node__num">' + esc(l.display) + '</span>' +
           '<span class="node__dot" aria-hidden="true"></span>' +
           '<span class="node__text">' +
@@ -174,11 +191,35 @@
             '<span class="node__en">' + esc(l.name_en) + '</span>' +
             '<span class="node__theme">' + esc(l.theme) + '</span>' +
           '</span>' +
-          '<span class="node__state">' + (st === 'passed' ? '✓ ' : st === 'locked' ? '🔒 ' : '') + labels[st] + '</span>' +
+          '<span class="node__state">' + (st === 'passed' ? '✓ ' : st === 'locked' ? '🔒 ' : '') + labels[st] +
+            (st === 'locked' ? '<span class="node__switch">⇅ начать отсюда</span>' : '') + '</span>' +
         '</' + tag + '>' +
       '</li>';
     }).join('');
-    $('#scale').innerHTML = html;
+    var scaleEl = $('#scale');
+    if (scaleEl) {
+      scaleEl.innerHTML = html;
+      scaleEl.querySelectorAll('[data-switch]').forEach(function (b) {
+        b.onclick = function () {
+          var id = parseInt(b.getAttribute('data-switch'), 10);
+          var lv = levels.filter(function (x) { return x.id === id; })[0];
+          if (!confirm('Начать с этого уровня — ' + lv.display + ' · ' + lv.name + '?\n\nОн станет текущим, все уровни ниже будут открыты.')) return;
+          Progress.pick(id);
+          initMap(data);
+          scrollToCurrent(true);
+        };
+      });
+    }
+
+    // Кнопка выбора состояния в настройках (если HTML устаревший — добавим её сами)
+    var settings = document.querySelector('.settings');
+    if (settings && !settings.querySelector('[data-pick-open]')) {
+      var pb = document.createElement('button');
+      pb.type = 'button'; pb.className = 'btn btn--ghost'; pb.setAttribute('data-pick-open', '');
+      pb.textContent = '⇅ Выбрать своё состояние';
+      var rb = settings.querySelector('#resetBtn');
+      settings.insertBefore(pb, rb || null);
+    }
 
     renderCurrentCard(curLevel, finished, levels.length);
     document.querySelectorAll('[data-pick-open]').forEach(function (b) {
@@ -186,13 +227,13 @@
     });
 
     // Настройки
-    var toggle = $('#dailyToggle');
+    var toggle = $('#dailyToggle') || {};
     toggle.checked = Progress.settings().daily;
     toggle.onchange = function () {
       var s = Progress.settings(); s.daily = toggle.checked; Progress.setSettings(s);
       initMap(data);
     };
-    var resetBtn = $('#resetBtn');
+    var resetBtn = $('#resetBtn') || {};
     resetBtn.onclick = function () {
       if (confirm('Сбросить весь прогресс? После сброса вы снова выберете уровень, с которого начать.')) {
         Progress.reset();
@@ -221,6 +262,7 @@
 
   function renderCurrentCard(l, finished, total) {
     var card = $('#currentCard');
+    if (!card) return;
     var passed = Progress.passedCount();
     var pct = Math.round(passed / total * 100);
     var progressBar = '<div class="journey"><div class="journey__bar"><span style="width:' + pct + '%"></span></div>' +
@@ -270,7 +312,7 @@
 
   /* ---------- Выбор уровня: «Где вы сейчас?» ---------- */
   function openPicker(data, first) {
-    var box = $('#picker');
+    var box = ensureEl('picker', 'picker');
     var cur = Progress.hasProgress() ? Progress.current() : null;
     var fin = Progress.finished();
     var items = data.levels.slice().reverse().map(function (l) {
@@ -327,7 +369,7 @@
     var from = levels.filter(function (l) { return l.id === fromId; })[0];
     if (!from) return;
     var to = levels[from.index + 1];
-    var box = $('#ascension');
+    var box = ensureEl('ascension', 'ascension');
     var sparks = '';
     for (var i = 0; i < 24; i++) {
       sparks += '<span class="spark" style="--i:' + i + ';--d:' + (Math.random() * 0.8).toFixed(2) + 's;--x:' + (Math.random() * 2 - 1).toFixed(2) + '"></span>';
@@ -362,6 +404,7 @@
     var id = parseInt(param('id'), 10);
     var l = data.levels.filter(function (x) { return x.id === id; })[0];
     var root = $('#level');
+    if (!root) return;
     if (!l) {
       root.innerHTML = '<div class="notice"><h1>Уровень не найден</h1><p>Вернитесь на карту и выберите доступный уровень.</p>' +
         '<a class="btn btn--gold" href="index.html">К карте</a></div>';
@@ -436,7 +479,7 @@
       if (hint) hint.textContent = msg;
     }
 
-    new window.TrackPlayer($('#player'), l.tracks, {
+    if (window.TrackPlayer && $('#player')) new window.TrackPlayer($('#player'), l.tracks, {
       title: l.display + ' · ' + l.name,
       onMissing: function () { unlockDone('Трек ещё не загружен — выполните практику по тексту и нажмите «Я выполнил практику».'); },
       onTime: function (sec) { if (sec >= MIN_LISTEN_SEC) unlockDone('Можно отметить практику или дослушать трек до конца.'); },
@@ -467,6 +510,7 @@
   /* ---------- Библиотека (library.html) ---------- */
   function initLibrary(data) {
     var root = $('#library');
+    if (!root) return;
     var passed = data.levels.filter(function (l) { var st = Progress.state(l.id); return st === 'passed' || st === 'open'; });
     if (!passed.length) {
       root.innerHTML = '<div class="notice"><h2>Архив пока пуст</h2><p>Здесь появляются треки пройденных уровней и всех уровней ниже вашего текущего. Начните практику со своего уровня.</p>' +
@@ -487,7 +531,7 @@
     }).join('');
     passed.forEach(function (l) {
       var mount = root.querySelector('.lib-item__player[data-id="' + l.id + '"]');
-      new window.TrackPlayer(mount, l.tracks, { title: l.display + ' · ' + l.name });
+      if (mount && window.TrackPlayer) new window.TrackPlayer(mount, l.tracks, { title: l.display + ' · ' + l.name });
     });
   }
 
@@ -497,9 +541,14 @@
     var page = document.body.getAttribute('data-page');
     loadData().then(function (data) {
       Progress.init(data.levels);
-      if (page === 'map') initMap(data);
-      else if (page === 'level') initLevel(data);
-      else if (page === 'library') initLibrary(data);
+      try {
+        if (page === 'map') initMap(data);
+        else if (page === 'level') initLevel(data);
+        else if (page === 'library') initLibrary(data);
+      } catch (e) {
+        // Ошибка отрисовки не должна ломать всю страницу — логируем и продолжаем.
+        console.error('[hawkins] render error:', e);
+      }
     }).catch(function (err) {
       console.error(err);
       var el = $('#currentCard') || $('#level') || $('#library');

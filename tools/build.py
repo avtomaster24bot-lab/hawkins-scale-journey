@@ -33,4 +33,13 @@ for l in data["levels"]:
             "**Lyrics:**", "```text", l["suno_lyrics"], "```", "",
             "**Файлы:** " + ", ".join(f"`{t}`" for t in l["tracks"]), ""]
 (root / "SUNO_PROMPTS.md").write_text("\n".join(out), encoding="utf-8")
-print("ok:", len(data["levels"]), "levels")
+# Версионирование ассетов (cache-busting для GitHub Pages): ?v=<время сборки>
+import re, time
+ver = time.strftime("%Y%m%d%H%M%S")
+for name in ("index.html", "level.html", "library.html"):
+    f = root / name
+    html = f.read_text(encoding="utf-8")
+    html = re.sub(r'((?:href|src)="(?:css/style\.css|js/app\.js|js/player\.js|data/tracks\.js))(?:\?v=[^"]*)?"',
+                  lambda m: m.group(1) + "?v=" + ver + '"', html)
+    f.write_text(html, encoding="utf-8")
+print("ok:", len(data["levels"]), "levels, asset version", ver)
