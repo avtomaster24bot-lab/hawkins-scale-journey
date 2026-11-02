@@ -2,11 +2,13 @@
 
 Для каждого уровня: откройте Suno → **Create → Custom**, вставьте **Style of Music** и **Lyrics** из блоков ниже, в поле Title — название уровня. Сгенерируйте 1–3 варианта, скачайте MP3 и положите их в папку `audio/` под именами, указанными в разделе «Файлы».
 
-Совет: если Suno «съедает» шёпот или хор, добавьте в конец стиля `, atmospheric, cinematic, Enigma, Michael Cretu style production`.
+**Главный принцип: музыка всегда поднимает.** Звук никогда не повторяет и не усиливает низкую эмоцию. Текст честно называет состояние, а музыка — тёплая, светлая, с движением вверх. Ориентир — мистический евроданс начала 90-х: григорианский хорал и мистические пады, глубокий мужской голос, рагга-куплеты, цепляющие женские припевы, синтезаторные стабы; на высоких уровнях — светлый хоровой эмбиент.
+
+Важно: Suno не принимает имена артистов в поле Style — поэтому звук описан словами. Если трек вышел мрачным, перегенерируйте и добавьте в конец стиля `, uplifting, major key, joyful`.
 
 ---
 
-## Низкие уровни (20–175): тревожные, диссонирующие, тяжёлые биты, шёпот, минимализм
+## Нижние уровни (20–175): бодрые, светлые, ритмичные — мистический евроданс, этно-данс, рагга, григорианский хорал. Текст признаёт состояние, музыка поднимает из него
 
 ### 20 — Стыд (Shame)
 
@@ -17,44 +19,49 @@
 
 **Style of Music:**
 ```text
-dark ambient, Enigma-inspired, deep sub-bass drone, distant fragments of gregorian chant, intimate whispered vocals, sparse dissonant piano, slow muffled heartbeat drum, minimal, cavernous reverb, 60 bpm
+uplifting 90s mystic euro-dance, gregorian chant over warm hip-hop beat, shakuhachi flute, soft female hook, deep male spoken voice, rising synth pads, major key, 118 bpm
 ```
 
 **Lyrics:**
 ```text
 [Intro]
-(шёпот) Я здесь... я здесь...
+(григорианский хор) Lux... surge... Lux...
+(глубокий мужской голос) Выходи на свет.
 
 [Verse 1]
-Я прячусь в тени, но тень — это я,
-Я опускаю глаза, чтобы не видеть себя.
-Каждый взгляд — как огонь, каждый голос — как суд,
-Я молчу так давно, что забыл, как зовут.
+Я прятался в тени, опускал глаза,
+Думал: «Я не такой», — и молчал всегда.
+Но сегодня внутри зазвучал барабан,
+И я слышу: мой стыд — это старый обман.
+
+[Pre-Chorus]
+Поднимаю лицо, поднимаю ладонь,
+В груди разгорается тёплый огонь.
 
 [Chorus]
-Но я дышу. Я дышу.
-В самой глубокой ночи
-Я не прошу прощенья за то, что живу —
-Я просто дышу.
+Выходи на свет, выходи на свет!
+Я имею право быть — и стыда больше нет.
+Выходи на свет, улыбнись, как рассвет,
+Я имею право быть — это мой ответ!
 
-[Verse 2]
-Я снимаю с плеч чужие слова,
-Эта тяжесть — не я, это чья-то молва.
-Я касаюсь земли — и она держит меня,
-Даже тень на стене — это след от огня.
+[Rap]
+(рагга, мужской голос)
+Эй, поднимай глаза, хватит прятать взгляд,
+Ты не хуже других — ты такой, как надо, брат!
+Каждый вдох — это «да», каждый шаг — это свет,
+Тень осталась внизу, а впереди — рассвет!
 
 [Chorus]
-Но я дышу. Я дышу.
-В самой глубокой ночи
-Я не прошу прощенья за то, что живу —
-Я просто дышу.
+Выходи на свет, выходи на свет!
+Я имею право быть — и стыда больше нет.
+Выходи на свет, улыбнись, как рассвет,
+Я имею право быть — это мой ответ!
 
 [Bridge]
-Я есть. Я имею право быть.
-Я есть. Я имею право быть.
+(хор) Я есть... я есть... я имею право быть!
 
 [Outro]
-(шёпот) Я выхожу из тени... на шаг... на вдох...
+(женский голос) Выходи на свет... на свет...
 ```
 
 **Файлы:** `audio/020_shame_1.mp3`, `audio/020_shame_2.mp3`
@@ -68,43 +75,48 @@ dark ambient, Enigma-inspired, deep sub-bass drone, distant fragments of gregori
 
 **Style of Music:**
 ```text
-dark Enigma-style downtempo, gregorian monk choir in minor key, heavy slow tribal drums, dissonant low strings, whispered male vocal, cathedral reverb, oppressive tension slowly releasing, 70 bpm
+joyful 90s euro-house, gregorian monk choir in major key, ragga male verses, catchy female chorus, bright synth stabs, piano chords, feeling of release, 124 bpm
 ```
 
 **Lyrics:**
 ```text
 [Intro]
-(мужской хор) Mea culpa... mea culpa...
+(хор монахов, мажор) Libera... libera me...
 
 [Verse 1]
-Я считаю шаги, что сделал не так,
-Каждый промах — как камень, каждый камень — как знак.
-Я казню себя ночью, я сужу себя днём,
-Я построил тюрьму — и живу в ней, как в доме своём.
+Я долго носил свой тяжёлый груз,
+Я судил себя сам и терял свой пульс.
+Но ошибка — не я, это только урок,
+Я его прочитал — и шагаю вперёд.
+
+[Pre-Chorus]
+Раскрываю ладонь — камень падает вниз,
+Я лёгкий, как ветер, я лёгкий, как бриз.
 
 [Chorus]
-Я кладу этот камень на землю,
-Я не камень — я тот, кто несёт.
-Урок принят, вина отпускает,
-И ладонь моя снова пуста.
+Отпускаю, отпускаю — я свободен опять!
+Я прощаю себя и учусь летать.
+Отпускаю, отпускаю — сердце снова поёт,
+Всё, что было, — прощено, и я иду вперёд!
 
-[Verse 2]
-Я прошу у себя то, что ждал от других:
-Тишины, что не судит, и слов не таких.
-Что исправить могу — я исправлю, а прочее — отпущу,
-Я себя, как ребёнка, за руку возьму.
+[Rap]
+(рагга, мужской голос)
+Йе, хватит тащить этот груз по земле,
+Что исправить могу — исправлю, а прочее — во мгле.
+Я себе говорю: «Ты хороший, ты свой», —
+И танцую легко, с поднятой головой!
 
 [Chorus]
-Я кладу этот камень на землю,
-Я не камень — я тот, кто несёт.
-Урок принят, вина отпускает,
-И ладонь моя снова пуста.
+Отпускаю, отпускаю — я свободен опять!
+Я прощаю себя и учусь летать.
+Отпускаю, отпускаю — сердце снова поёт,
+Всё, что было, — прощено, и я иду вперёд!
 
 [Bridge]
-Я не мой поступок. Я — тот, кто учится.
+(хор) Libera... Я не мой поступок — я тот, кто растёт!
 
 [Outro]
-(шёпот) Отпущено... отпущено...
+(женский голос) Отпущено... я лечу...
 ```
 
 **Файлы:** `audio/030_guilt_1.mp3`, `audio/030_guilt_2.mp3`
@@ -118,41 +130,49 @@ dark Enigma-style downtempo, gregorian monk choir in minor key, heavy slow triba
 
 **Style of Music:**
 ```text
-bleak minimal dark ambient, Enigma-inspired, slow muffled kick, grey detuned synth drone, broken music box, distant breathing textures, whispered spoken word, empty space, a single bright bell appears at the end, 55 bpm
+energetic early-90s new beat euro-dance, mystic chant intro, punchy kick, bright synth stabs, ragga male vocal, catchy female hook, rising sunrise energy, 126 bpm
 ```
 
 **Lyrics:**
 ```text
+[Intro]
+(хор) Surge... surge...
+(глубокий мужской голос) Проснись.
+
 [Verse 1]
-«Всё равно», — говорю я и падаю в серый туман,
-Дни как вода в стакане — ни вкуса, ни дна.
-Я не жду ничего, я не верю, не злюсь,
-Я как лист на асфальте, что не помнит свой куст.
+Было всё равно, серый день как вода,
+Ни желаний, ни сил, ни огня — никогда.
+Но под пеплом внутри задрожала искра,
+И я чувствую: мне просыпаться пора.
+
+[Pre-Chorus]
+Открываю окно, впускаю ветер и свет,
+Один маленький шаг — серой мгле больше нет.
 
 [Chorus]
-Но где-то внутри — одна искра,
-Маленький свет в золе.
-Мне не нужно гореть до утра —
-Мне хватит искры во мгле.
+Искра! Зажигается искра!
+Сердце бьётся быстрей — начинается игра!
+Искра! Я живой, я встаю,
+С каждым шагом сильней — я танцую, я пою!
 
-[Verse 2]
-Я встаю и открываю окно,
-Пью холодную воду — и чувствую вкус, как давно.
-Одно маленькое дело, один шаг, один вдох —
-Я живой, даже если пока не готов.
+[Rap]
+(рагга, мужской голос)
+Раз — вода, два — окно, три — улыбка, вперёд!
+Маленький шаг — и уже мотор поёт!
+Не нужно гореть до утра, как звезда, —
+Мне хватит одной искры, и я в пути навсегда!
 
 [Chorus]
-Но где-то внутри — одна искра,
-Маленький свет в золе.
-Мне не нужно гореть до утра —
-Мне хватит искры во мгле.
+Искра! Зажигается искра!
+Сердце бьётся быстрей — начинается игра!
+Искра! Я живой, я встаю,
+С каждым шагом сильней — я танцую, я пою!
 
 [Bridge]
-Одна искра. Один шаг.
-Одна искра. Один шаг.
+Одна искра — один шаг! Одна искра — один шаг!
 
 [Outro]
-(колокол) ...и свет чуть ближе.
+(женский голос) Свет всё ближе... всё ближе...
 ```
 
 **Файлы:** `audio/050_apathy_1.mp3`, `audio/050_apathy_2.mp3`
@@ -166,40 +186,49 @@ bleak minimal dark ambient, Enigma-inspired, slow muffled kick, grey detuned syn
 
 **Style of Music:**
 ```text
-melancholic Enigma-style dark ambient, mournful duduk and solo cello, slow brushed tribal drums, distant female lament vocal, low gregorian hum, rain textures, minor key, 65 bpm
+warm world-pop downtempo, gentle hip-hop groove, gregorian hum, duduk melody, consoling female vocal, soft male spoken verse, hopeful major chords, sunlit pads, 100 bpm
 ```
 
 **Lyrics:**
 ```text
+[Intro]
+(хор, мягко) Consolatio...
+(женский голос) Я с тобой.
+
 [Verse 1]
 Я теряю — и сердце как дом без огня,
 Те, кого я любил, отошли от меня.
-Я держу пустоту, будто это рука,
-И слеза за слезой — как большая река.
+Пусть слеза за слезой, как большая река, —
+Но любовь, как ладонь, меня держит, легка.
+
+[Pre-Chorus]
+Река течёт к морю, а море — к небесам,
+Всё, что любил, живёт во мне — я знаю сам.
 
 [Chorus]
-Пусть течёт, пусть течёт эта река,
-Слёзы — тоже вода, что питает луга.
-Я не прячу печаль — я её отпускаю,
-Всё, что любил, я в себе сохраняю.
+Спасибо, спасибо за всё, что было!
+Солнце сквозь слёзы — и сердце не остыло.
+Спасибо, спасибо — любовь не уйдёт,
+Она во мне живёт, она во мне поёт!
 
 [Verse 2]
-Благодарю за каждый день, что был дан,
-За тепло, что осталось, — как шрам и бальзам.
+(мягкий мужской голос)
 Ничто не уходит совсем — лишь меняет черты,
-Любовь остаётся, когда сгорают мосты.
+Тепло остаётся, как свет от далёкой звезды.
+Я улыбаюсь сквозь дождь, я благодарю,
+И новому утру я тихо «да» говорю.
 
 [Chorus]
-Пусть течёт, пусть течёт эта река,
-Слёзы — тоже вода, что питает луга.
-Я не прячу печаль — я её отпускаю,
-Всё, что любил, я в себе сохраняю.
+Спасибо, спасибо за всё, что было!
+Солнце сквозь слёзы — и сердце не остыло.
+Спасибо, спасибо — любовь не уйдёт,
+Она во мне живёт, она во мне поёт!
 
 [Bridge]
-Спасибо. Спасибо за всё, что было.
+(хор) Река течёт к морю... к свету... к свету...
 
 [Outro]
-(шёпот) Река течёт... к морю... к морю...
+(женский голос) Спасибо...
 ```
 
 **Файлы:** `audio/075_grief_1.mp3`, `audio/075_grief_2.mp3`
@@ -213,41 +242,49 @@ melancholic Enigma-style dark ambient, mournful duduk and solo cello, slow brush
 
 **Style of Music:**
 ```text
-tense dark electronic, Enigma-inspired, pulsing low synth bass, heavy distorted tribal drums, heartbeat rhythm, eerie gregorian chant, whispered vocals, dissonant string stabs, suspense that resolves into calm, 85 bpm
+cheerful 90s euro-dance, gregorian chant, ragga male vocal, catchy female chorus, deep spoken male voice, mystic synth pads, bouncy bassline, fearless and bright, 128 bpm
 ```
 
 **Lyrics:**
 ```text
+[Intro]
+(хор) Fortis... fortis...
+(глубокий мужской голос) Не бойся.
+
 [Verse 1]
-Тени на стенах растут по ночам,
-Сердце стучит, будто кто-то стучит по плечам.
-«Что если, что если» — шепчет мне каждый звук,
-Я заперт в кольце бесконечных «а вдруг».
+Тени на стенах шептали «а вдруг»,
+Сердце стучало, сжимая свой круг.
+Но я включаю свет — и включаю бит,
+И страх уменьшается — он больше не кричит.
+
+[Pre-Chorus]
+Вдох — четыре, выдох — восемь, раз-два,
+Я смотрю страху в глаза — и смеюсь: «Ну да!»
 
 [Chorus]
-Я смотрю тебе в глаза, мой страх,
-Ты — лишь тень, а не стена.
-Вдох — четыре, выдох — восемь,
-И тень становится тонка.
+Не боюсь, не боюсь — я танцую со страхом!
+Он лишь тень, он лишь дым — разлетается прахом!
+Не боюсь, не боюсь — я в безопасности здесь,
+Я смелый, я живой, я такой, какой есть!
 
-[Verse 2]
+[Rap]
+(рагга, мужской голос)
+Йо, страх, ты хотел меня защитить, —
+Спасибо, дружок, но дальше мне самому идти!
 Я называю тебя по имени вслух —
-И ты меньше, чем был, и твой голос потух.
-Ты хотел защитить — я тебя благодарю,
-Но дальше я сам. Я сам говорю.
+И ты сдуваешься, как шарик: пуф! — и потух!
 
 [Chorus]
-Я смотрю тебе в глаза, мой страх,
-Ты — лишь тень, а не стена.
-Вдох — четыре, выдох — восемь,
-И тень становится тонка.
+Не боюсь, не боюсь — я танцую со страхом!
+Он лишь тень, он лишь дым — разлетается прахом!
+Не боюсь, не боюсь — я в безопасности здесь,
+Я смелый, я живой, я такой, какой есть!
 
 [Bridge]
-Я в безопасности. Здесь и сейчас.
-Я в безопасности. Здесь и сейчас.
+(хор) Я в безопасности. Здесь и сейчас! Здесь и сейчас!
 
 [Outro]
-(шёпот) Тень тает... тает...
+(женский голос) Не боюсь... я — свет...
 ```
 
 **Файлы:** `audio/100_fear_1.mp3`, `audio/100_fear_2.mp3`
@@ -261,40 +298,49 @@ tense dark electronic, Enigma-inspired, pulsing low synth bass, heavy distorted 
 
 **Style of Music:**
 ```text
-hypnotic dark Enigma-style downtempo, seductive deep bassline, ethnic hand percussion, breathy female whisper, looped gregorian chant, oriental ney flute, swirling restless synths, 90 bpm
+bright tribal ethno-dance, big tribal drums, ethnic chants, ney flute hook, playful female vocal, ragga male lines, warm mystic pads, joyful freedom, 122 bpm
 ```
 
 **Lyrics:**
 ```text
+[Intro]
+(этнический хор) Эй-я... эй-я...
+(флейта)
+
 [Verse 1]
-«Мне мало, мне мало», — шепчет голод внутри,
-Ещё и ещё, и ещё — посмотри.
-Я бегу за огнями витрин и чужих побед,
-А в руках у меня — только отблеск и след.
+«Мне мало, мне мало», — стучало внутри,
+Ещё и ещё — посмотри, посмотри!
+Я бежал за огнями витрин и побед,
+Но в ладонях держал только отблеск и след.
+
+[Pre-Chorus]
+Останавливаюсь, слышу сердце своё:
+Что мне нужно? Ведь всё уже — моё.
 
 [Chorus]
-Я замечаю желание —
-Я не раб его, я свидетель.
-Что мне нужно на самом деле?
-Я выбираю. Я свободен.
+У меня уже есть, у меня уже есть!
+Солнце, небо и я — и я весь здесь!
+Я выбираю сам, я свободен, как ветер,
+У меня уже есть всё, что нужно на свете!
 
-[Verse 2]
-За каждым «хочу» — тихий детский запрос:
-Быть любимым, увиденным — вот и весь вопрос.
+[Rap]
+(рагга, мужской голос)
+За каждым «хочу» — детский тихий запрос:
+Быть любимым, быть нужным — вот и весь вопрос!
 Я даю себе это сам, без погони и лжи,
-И огонь желания стал теплом души.
+И огонь желаний — это тепло души!
 
 [Chorus]
-Я замечаю желание —
-Я не раб его, я свидетель.
-Что мне нужно на самом деле?
-Я выбираю. Я свободен.
+У меня уже есть, у меня уже есть!
+Солнце, небо и я — и я весь здесь!
+Я выбираю сам, я свободен, как ветер,
+У меня уже есть всё, что нужно на свете!
 
 [Bridge]
-У меня уже есть. У меня уже есть.
+(хор) Достаточно... достаточно... я — достаточно!
 
 [Outro]
-(флейта) ...достаточно.
+(женский голос, флейта) У меня уже есть...
 ```
 
 **Файлы:** `audio/125_desire_1.mp3`, `audio/125_desire_2.mp3`
@@ -308,41 +354,49 @@ hypnotic dark Enigma-style downtempo, seductive deep bassline, ethnic hand percu
 
 **Style of Music:**
 ```text
-aggressive dark electronic, Enigma-inspired, driving heavy tribal drums, distorted industrial bass, chanting male choir, war horns, rhythmic and powerful, final section opens into bright rising synth light, 100 bpm
+powerful positive euro-dance anthem, epic cinematic drums, heroic gregorian choir, ragga male vocal, soaring female chorus, triumphant synth brass, major key, 130 bpm
 ```
 
 **Lyrics:**
 ```text
+[Intro]
+(героический хор) Ignis... lux...
+(глубокий мужской голос) Направь огонь вверх.
+
 [Verse 1]
 Во мне поднимается пламя, как вулкан,
-Я сжимаю кулак, я ломаю капкан.
-Сколько раз я молчал, сколько раз я терпел —
+Я сжимаю кулак — и ломаю капкан.
+Сколько раз я молчал, сколько раз я терпел, —
 Этот жар разгорался, этот жар закипел.
 
-[Chorus]
-Огонь внутри — не для разрушенья,
-Я направляю его вверх.
-Из пепла — сила, из боли — движенье,
-Я превращаю гнев в свет.
-
-[Verse 2]
-Я слышу границу, что нарушил мир,
-Мой гнев — это страж, а не командир.
-Я говорю «нет» — спокойно и ясно,
-И пламя горит, но уже безопасно.
+[Pre-Chorus]
+Но я не разрушаю — я строю мосты,
+Мой огонь превращается в силу мечты.
 
 [Chorus]
 Огонь внутри — не для разрушенья,
-Я направляю его вверх.
+Я направляю его вверх!
 Из пепла — сила, из боли — движенье,
-Я превращаю гнев в свет.
+Я превращаю гнев в свет!
+
+[Rap]
+(рагга, мужской голос)
+Мой гнев — это страж, а не командир,
+Я говорю «нет» — и спокоен мой мир!
+Я держу границу, я ясен и смел,
+И пламя горит там, где я захотел!
+
+[Chorus]
+Огонь внутри — не для разрушенья,
+Я направляю его вверх!
+Из пепла — сила, из боли — движенье,
+Я превращаю гнев в свет!
 
 [Bridge]
-Вдох — огонь. Выдох — свет.
-Вдох — огонь. Выдох — свет.
+Вдох — огонь! Выдох — свет! Вдох — огонь! Выдох — свет!
 
 [Outro]
-Я — свет. Я — свет.
+(хор) Я — свет! Я — свет!
 ```
 
 **Файлы:** `audio/150_anger_1.mp3`, `audio/150_anger_2.mp3`
@@ -356,48 +410,55 @@ aggressive dark electronic, Enigma-inspired, driving heavy tribal drums, distort
 
 **Style of Music:**
 ```text
-epic dark Enigma-style, majestic slow heavy drums, grand gregorian choir, brass-like synth swells, proud baritone male vocal, cathedral reverb, ends with a humble quiet solo piano, 88 bpm
+joyful orchestral mystic dance, cinematic strings and horns, warm gregorian choir, uplifting hip-hop beat, warm male vocal, open female chorus, festive major key, 110 bpm
 ```
 
 **Lyrics:**
 ```text
+[Intro]
+(торжественный хор и струнные)
+
 [Verse 1]
-Я стою на вершине, что построил из «я»,
+Я стоял на вершине, что построил из «я»,
 Я лучше, я выше, я прав — вот моя колея.
-Но чем выше стена, тем темней за стеной,
-Я один за стеной, я один со своей тишиной.
+Но чем выше стена, тем холодней за стеной,
+И я понял: мне тесно в короне одной.
+
+[Pre-Chorus]
+Я снимаю корону и кладу её в траву,
+Я открываю двери — и по-настоящему живу!
 
 [Chorus]
-Я снимаю корону —
-Она слишком тяжела.
-Мне не нужно быть правым,
-Мне нужно быть живым.
+Мне не нужно быть правым — мне нужно быть живым!
+Открываю ладони и солнцу, и другим!
+Я учусь у ребёнка, у ветра, у реки, —
+Мы равные, и наши сердца легки!
 
 [Verse 2]
+(тёплый мужской голос)
 Я признаю: я не знаю всего,
 И в этом «не знаю» — простор, а не дно.
-Я учусь у ребёнка, у травы, у реки,
-Я раскрываю ладони — они так легки.
+Я смеюсь над собой — и становлюсь сильней,
+Мир больше, чем я, и в нём столько друзей!
 
 [Chorus]
-Я снимаю корону —
-Она слишком тяжела.
-Мне не нужно быть правым,
-Мне нужно быть живым.
+Мне не нужно быть правым — мне нужно быть живым!
+Открываю ладони и солнцу, и другим!
+Я учусь у ребёнка, у ветра, у реки, —
+Мы равные, и наши сердца легки!
 
 [Bridge]
-Я равный среди равных.
-Я равный среди равных.
+(хор) Я равный среди равных! Равный среди равных!
 
 [Outro]
-(фортепиано) ...открыт.
+(женский голос) Открыт... открыт...
 ```
 
 **Файлы:** `audio/175_pride_1.mp3`, `audio/175_pride_2.mp3`
 
 ---
 
-## Средние уровни (200–400): ритмичные, структурированные, надежда и сила
+## Средние уровни (200–400): уверенные, структурированные, полные надежды — мистический данс и даунтемпо с хоралом
 
 ### 200 — Смелость (Courage)
 
@@ -408,11 +469,15 @@ epic dark Enigma-style, majestic slow heavy drums, grand gregorian choir, brass-
 
 **Style of Music:**
 ```text
-Enigma-style beat, steady mid-tempo breakbeat drums, gregorian chant hook, warm deep bass, ethnic percussion, confident male vocal, rising hopeful synth pads, shift from minor to major, 95 bpm
+confident mystic dance, gregorian chant hook, steady breakbeat, deep male spoken voice, strong female chorus, shakuhachi, hopeful synth pads, major key, 112 bpm
 ```
 
 **Lyrics:**
 ```text
+[Intro]
+(григорианский хор) Fortitudo... fortitudo...
+(глубокий мужской голос) Сделай шаг.
+
 [Verse 1]
 Я вижу страх, но я делаю шаг.
 Я — не моя тревога, и я ей не враг.
@@ -442,7 +507,7 @@ Enigma-style beat, steady mid-tempo breakbeat drums, gregorian chant hook, warm 
 Я могу. Я иду.
 
 [Outro]
-Первый шаг сделан.
+(хор) Первый шаг сделан! Первый шаг сделан!
 ```
 
 **Файлы:** `audio/200_courage_1.mp3`, `audio/200_courage_2.mp3`, `audio/200_courage_3.mp3`
@@ -456,7 +521,7 @@ Enigma-style beat, steady mid-tempo breakbeat drums, gregorian chant hook, warm 
 
 **Style of Music:**
 ```text
-balanced Enigma-style downtempo, relaxed steady groove, soft trip-hop drums, gentle gregorian hum, acoustic guitar harmonics, warm analog pads, calm male and female duet, airy and steady, 90 bpm
+relaxed world-pop downtempo, warm acoustic guitar, gentle gregorian hum, soft trip-hop groove, calm male and female duet, sunny pads, easy flowing, 96 bpm
 ```
 
 **Lyrics:**
@@ -503,7 +568,7 @@ balanced Enigma-style downtempo, relaxed steady groove, soft trip-hop drums, gen
 
 **Style of Music:**
 ```text
-uplifting Enigma-style, steady driving beat, bright ethnic percussion, gregorian chant in major key, pan flute melody, optimistic female vocal, rising arpeggios, sunrise energy, 100 bpm
+light uplifting pop-electronica, bouncy beat, bright arpeggios, chant-style backing choir, pan flute hook, optimistic female vocal, sunrise energy, 118 bpm
 ```
 
 **Lyrics:**
@@ -551,7 +616,7 @@ uplifting Enigma-style, steady driving beat, bright ethnic percussion, gregorian
 
 **Style of Music:**
 ```text
-smooth Enigma-style ambient, flowing lush strings, soft slow downtempo beat, gentle gregorian choir, warm cello, tender male vocal, distant ocean waves, forgiving and spacious, 80 bpm
+warm choral downtempo, lush strings, gentle hip-hop beat, grand soft choir, tender male vocal, ocean waves, forgiving major chords, spacious, 90 bpm
 ```
 
 **Lyrics:**
@@ -598,7 +663,7 @@ smooth Enigma-style ambient, flowing lush strings, soft slow downtempo beat, gen
 
 **Style of Music:**
 ```text
-intelligent Enigma-style electronica, precise crisp beat, sacred-geometry synth arpeggios, crystal bells, gregorian chant counterpoint, clear spoken-word male vocal, orchestral strings, luminous and structured, 100 bpm
+luminous cosmic electronica, crisp beat, sparkling synth arpeggios, crystal bells, gregorian counterpoint, clear male spoken voice, bright major key, 108 bpm
 ```
 
 **Lyrics:**
@@ -638,7 +703,7 @@ intelligent Enigma-style electronica, precise crisp beat, sacred-geometry synth 
 
 ---
 
-## Высокие уровни (500–700+): эмбиент, хоралы, простор, 432/528 Гц, минимум ударных
+## Высокие уровни (500–700+): светлый хоровой эмбиент и нью-эйдж, 432/528 Гц, минимум ударных — спокойно, но тепло
 
 ### 500 — Любовь (Love)
 
@@ -649,7 +714,7 @@ intelligent Enigma-style electronica, precise crisp beat, sacred-geometry synth 
 
 **Style of Music:**
 ```text
-ethereal Enigma-style choral ambient, angelic female vocal, layered gregorian and celestial choir, 528 Hz tuning drone, soft heartbeat pulse, harp and warm pads, minimal percussion, vast and luminous, 70 bpm
+luminous choral ambient, angelic female vocal, celestial choir, 528 Hz drone, soft heartbeat pulse, harp, warm pads, minimal percussion, tender and bright, 70 bpm
 ```
 
 **Lyrics:**
@@ -696,7 +761,7 @@ ethereal Enigma-style choral ambient, angelic female vocal, layered gregorian an
 
 **Style of Music:**
 ```text
-radiant Enigma-style ambient, light airy percussion, joyful layered choir, chimes and crystal singing bowls, soaring female vocal, 432 Hz tuning, flowing harp arpeggios, blissful and expansive, 85 bpm
+radiant new age ambient-pop, light airy percussion, joyful choir, chimes, crystal bowls, soaring female vocal, 432 Hz, flowing harp, blissful major key, 84 bpm
 ```
 
 **Lyrics:**
@@ -743,7 +808,7 @@ radiant Enigma-style ambient, light airy percussion, joyful layered choir, chime
 
 **Style of Music:**
 ```text
-minimal sacred ambient, almost no words, deep resonant gong, shakuhachi bamboo flute, tibetan singing bowls, soft distant gregorian drone, 432 Hz tuning, gentle breath sounds, no drums, very slow, vast silence
+gentle sacred ambient, few words, warm gong, shakuhachi flute, singing bowls, soft choir drone, 432 Hz, calm breathing, no drums, warm and serene
 ```
 
 **Lyrics:**
@@ -752,7 +817,7 @@ minimal sacred ambient, almost no words, deep resonant gong, shakuhachi bamboo f
 (гонг)
 
 [Verse]
-(шёпот) Вдох... я здесь.
+(мягкий женский голос) Вдох... я здесь.
 Выдох... я тишина.
 
 [Chant]
@@ -760,7 +825,7 @@ minimal sacred ambient, almost no words, deep resonant gong, shakuhachi bamboo f
 Ом... шанти... покой...
 
 [Verse]
-(шёпот) Мысли — облака. Я — небо.
+(мягкий женский голос) Мысли — облака. Я — небо.
 Нечего делать. Некуда идти.
 
 [Chant]
@@ -782,7 +847,7 @@ minimal sacred ambient, almost no words, deep resonant gong, shakuhachi bamboo f
 
 **Style of Music:**
 ```text
-transcendent celestial ambient, Enigma-inspired, ethereal choir chord swells, 963 Hz and 432 Hz tones, endless reverb, crystal singing bowls, single sustained female voice, no percussion, timeless, infinite space
+transcendent celestial ambient, radiant choir swells, 963 Hz and 432 Hz tones, endless reverb, crystal bowls, sustained female voice, no percussion, luminous, timeless
 ```
 
 **Lyrics:**
